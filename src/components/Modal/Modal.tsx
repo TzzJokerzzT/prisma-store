@@ -1,4 +1,4 @@
-import { ModalProps } from "@/types/components.interface";
+import { useContext } from "react";
 import {
   Button,
   Modal,
@@ -10,14 +10,18 @@ import {
   Divider,
   Link,
 } from "@nextui-org/react";
-import ButtonComponent from "../Button/Button";
-import { useContext } from "react";
-import { StoreContext } from "@/provider/storeProvider";
+import { ModalProps } from "@/types/components.interface";
 import { StoreContextProps } from "@/types/provider.interface";
+import ButtonComponent from "../Button/Button";
+import LazyImage from "@/lib/LazyImage";
+import { StoreContext } from "@/provider/storeProvider";
+import SkeletonComponent from "../Skeleton/Skeleton";
 
 const ModalComponent = ({ items }: ModalProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { handleFavorite } = useContext(StoreContext) as StoreContextProps;
+  const { isInView, handleFavorite } = useContext(
+    StoreContext
+  ) as StoreContextProps;
 
   return (
     <>
@@ -40,15 +44,20 @@ const ModalComponent = ({ items }: ModalProps) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-white font-bold text-center text-[2rem]">
+              <ModalHeader className="flex flex-col justify-center gap-1 text-white font-bold text-center text-[2rem]">
                 {items.name.toUpperCase()}
               </ModalHeader>
-              <ModalBody>
-                <img
-                  src={items.image}
-                  alt={`${items.name} picture`}
-                  className="rounded-[0.5rem]"
-                />
+              <ModalBody className="flex justify-center items-center">
+                <SkeletonComponent
+                  isLoaded={isInView}
+                  className="h-full rounded-[0.5rem]"
+                >
+                  <LazyImage
+                    src={items.image}
+                    alt={`${items.name} picture`}
+                    className="h-[20rem] w-[25rem] rounded-[0.5rem]"
+                  />
+                </SkeletonComponent>
               </ModalBody>
               <Divider />
               <p className="text-white ml-[1rem]">

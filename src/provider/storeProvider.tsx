@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { useFetchData } from "@/hook/useFetchData";
 import {
   StoreContextProps,
@@ -10,15 +10,16 @@ import useSidebarCar from "@/hook/useSidebarCar";
 export const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider = ({ children }: StoreProviderProps) => {
-  const { products, isLoading, isLoaded, isActive } = useFetchData();
+  const [isInView, setIsInView] = useState(false);
+  const { products, isActive } = useFetchData();
   const { favorite, handleFavorite, handleRemove } = useFavorite();
   const { isOpen, toggle } = useSidebarCar();
   return (
     <StoreContext.Provider
       value={{
+        isInView,
+        setIsInView,
         products,
-        isLoading,
-        isLoaded,
         isActive,
         favorite,
         handleFavorite,

@@ -3,9 +3,9 @@ export interface StoreProviderProps {
 }
 
 export interface StoreContextProps {
+  isInView: boolean;
+  setIsInView: React.Dispatch<React.SetStateAction<boolean>>;
   products: Products[];
-  isLoading: boolean;
-  isLoaded: boolean;
   isActive: boolean;
   favorite: Products[];
   handleFavorite: (item: Products) => void;
@@ -23,7 +23,7 @@ export type Products = {
   category: string;
   about: {
     company: string;
-    referenceURL: string
-  }
+    referenceURL: string;
+  };
   id: number;
 };

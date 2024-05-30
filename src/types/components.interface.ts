@@ -1,5 +1,4 @@
 import { Products } from "@/types/provider.interface";
-import React from "react";
 
 export interface CardsProps {
   items: Products;
@@ -28,5 +27,11 @@ export interface ButtonProps {
 export interface SkeletonProps {
   children: React.ReactNode;
   isLoaded?: boolean;
+  className?: string;
+}
+
+export interface LazyImageProps {
+  src: string;
+  alt: string;
   className?: string;
 }
