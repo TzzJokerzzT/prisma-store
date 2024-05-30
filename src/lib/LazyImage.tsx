@@ -1,4 +1,3 @@
-import SkeletonComponent from "@/components/Skeleton/Skeleton";
 import { StoreContext } from "@/provider/storeProvider";
 import { LazyImageProps } from "@/types/components.interface";
 import { StoreContextProps } from "@/types/provider.interface";
@@ -8,7 +7,7 @@ const LazyImage = ({ src, alt, className, ...props }: LazyImageProps) => {
   const { isInView, setIsInView } = useContext(
     StoreContext
   ) as StoreContextProps;
-  const imgRef = useRef();
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
