@@ -11,7 +11,6 @@ export const CardComponent = ({ items }: CardsProps) => {
   const { isInView, handleFavorite } = useContext(
     StoreContext
   ) as StoreContextProps;
-
   return (
     <>
       <MagicContainer
