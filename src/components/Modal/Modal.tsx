@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import {
   Button,
   Modal,
@@ -23,13 +23,17 @@ const ModalComponent = ({ items }: ModalProps) => {
     StoreContext
   ) as StoreContextProps;
 
+  const handleOpen = useCallback(() => {
+    onOpen();
+  }, [onOpen]);
+  
   return (
     <>
       <Button
         className="border-greenPrimary text-greenPrimary"
         radius="sm"
         variant="bordered"
-        onPress={onOpen}
+        onPress={handleOpen}
       >
         More Info
       </Button>
