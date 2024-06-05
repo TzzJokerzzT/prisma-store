@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Products } from "@/types/provider.interface";
 
 const useFavorite = () => {
   const [favorite, setFavorite] = useState<Products[]>([]);
-  const handleFavorite = (item: Products) => {
+  
+  const handleFavorite = useCallback((item: Products) => {
     setFavorite((prev) => {
       const itemsExist = prev.find((items) => items.id === item.id);
       if (itemsExist) {
@@ -15,9 +16,9 @@ const useFavorite = () => {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const handleRemove = (item: Products) => {
+  const handleRemove = useCallback((item: Products) => {
     setFavorite((prev) => {
       const itemsExist = prev.find((items) => items.id === item.id);
       if (itemsExist) {
@@ -33,7 +34,7 @@ const useFavorite = () => {
       }
       return prev;
     });
-  };
+  }, []);
   return { favorite, handleFavorite, handleRemove };
 };
 
