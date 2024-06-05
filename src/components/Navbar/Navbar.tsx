@@ -1,20 +1,29 @@
 import { useContext } from "react";
 import {
   Badge,
+  Checkbox,
+  Divider,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@nextui-org/react";
 import shoppingCarIcon from "@/assets/icons/shoppingCarIcon.svg";
 import { StoreContext } from "@/provider/storeProvider";
 import { StoreContextProps } from "@/types/provider.interface";
+import AccordionComponent from "@/components/Accordion/Accordion";
 const NavbarComponent = () => {
-  const { favorite, toggle } = useContext(StoreContext) as StoreContextProps;
+  const { category, company, favorite, toggle } = useContext(
+    StoreContext
+  ) as StoreContextProps;
 
   return (
-    <Navbar>
+    <Navbar isBordered isBlurred>
       <NavbarContent>
+        <NavbarMenuToggle />
         <NavbarBrand>
           <p className="font-bold text-inherit">Prisma Store</p>
         </NavbarBrand>
@@ -38,6 +47,20 @@ const NavbarComponent = () => {
         </NavbarItem>
         <NavbarItem className="hidden lg:flex"></NavbarItem>
       </NavbarContent>
+      <NavbarMenu className="w-[20rem]">
+        <AccordionComponent key="1" title="Category">
+          {category.map((items) => (
+            <Checkbox className="flex flex-wrap w-[30rem]">{items}</Checkbox>
+          ))}
+        </AccordionComponent>
+        <Divider />
+        <AccordionComponent key="1" title="Company" className="text-greenPrimary">
+          {company.map((items) => (
+            <Checkbox className="flex flex-wrap w-[30rem]">{items}</Checkbox>
+          ))}
+        </AccordionComponent>
+        <Divider />
+      </NavbarMenu>
     </Navbar>
   );
 };
