@@ -6,6 +6,8 @@ export interface StoreContextProps {
   isInView: boolean;
   setIsInView: React.Dispatch<React.SetStateAction<boolean>>;
   products: Products[];
+  category: string[];
+  company: string[];
   isActive: boolean;
   favorite: Products[];
   handleFavorite: (item: Products) => void;
