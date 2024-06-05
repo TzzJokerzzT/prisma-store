@@ -8,7 +8,6 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenu,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import shoppingCarIcon from "@/assets/icons/shoppingCarIcon.svg";
