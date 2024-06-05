@@ -11,7 +11,7 @@ export const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider = ({ children }: StoreProviderProps) => {
   const [isInView, setIsInView] = useState(false);
-  const { products, isActive } = useFetchData();
+  const { products, category, company, isActive } = useFetchData();
   const { favorite, handleFavorite, handleRemove } = useFavorite();
   const { isOpen, toggle } = useSidebarCar();
   return (
@@ -20,6 +20,8 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         isInView,
         setIsInView,
         products,
+        category,
+        company,
         isActive,
         favorite,
         handleFavorite,
