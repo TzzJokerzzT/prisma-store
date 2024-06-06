@@ -10,7 +10,6 @@ const Main = () => {
     <>
       <NavbarComponent />
       <SidebarCartComponent />
-
       <CarouselComponent />
       <Suspense fallback={<SpinnerComponent />}>
         <Card />
