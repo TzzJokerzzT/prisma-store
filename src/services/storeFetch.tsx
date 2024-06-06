@@ -1,8 +1,15 @@
 import { BASE_URL } from "./data";
 
-export const storeFetch = async () => {
+export interface storeFetchProps {
+  category: string;
+  company: string;
+}
+
+export const storeFetch = async (category: string, company: string) => {
   try {
-    const response = await fetch(BASE_URL);
+    const response = await fetch(
+      `${BASE_URL}/?category=${category}&company=${company}`
+    );
     if (!response.ok) {
       throw new Error("Error to fetch data");
     }
