@@ -5,7 +5,9 @@ import { StoreContextProps } from "@/types/provider.interface";
 import ButtonComponent from "../Button/Button";
 
 const Card = () => {
-  const { products, isActive } = useContext(StoreContext) as StoreContextProps;
+  const { products, isActive } = useContext(
+    StoreContext
+  ) as StoreContextProps;
   const [cardsToShow, setCardsToShow] = useState<number>(10);
 
   const showMoreCards = () => {
