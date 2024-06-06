@@ -11,9 +11,20 @@ export const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider = ({ children }: StoreProviderProps) => {
   const [isInView, setIsInView] = useState(false);
-  const { products, category, company, isActive } = useFetchData();
+  const {
+    products,
+    category,
+    company,
+    isActive,
+    selectedCategory,
+    selectedCompany,
+    onCategory,
+    onCompany,
+    onReset,
+  } = useFetchData();
   const { favorite, handleFavorite, handleRemove } = useFavorite();
   const { isOpen, toggle } = useSidebarCar();
+
   return (
     <StoreContext.Provider
       value={{
@@ -28,6 +39,11 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         handleRemove,
         isOpen,
         toggle,
+        selectedCategory,
+        selectedCompany,
+        onCategory,
+        onCompany,
+        onReset,
       }}
     >
       {children}
