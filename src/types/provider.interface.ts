@@ -14,6 +14,11 @@ export interface StoreContextProps {
   handleRemove: (item: Products) => void;
   isOpen: boolean;
   toggle: () => void;
+  selectedCategory: string;
+  selectedCompany: string;
+  onCategory: (items: string) => void;
+  onCompany: (items: string) => void;
+  onReset: () => void;
 }
 
 export type Products = {
@@ -23,8 +28,8 @@ export type Products = {
   quantity: number;
   description: string;
   category: string;
+  company: string;
   about: {
-    company: string;
     referenceURL: string;
   };
   id: number;

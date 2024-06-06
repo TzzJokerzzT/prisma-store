@@ -35,3 +35,10 @@ export interface LazyImageProps {
   alt: string;
   className?: string;
 }
+
+export interface AccordionProps {
+  children: React.ReactNode;
+  key?: string | number;
+  title: string;
+  className?: string;
+}
