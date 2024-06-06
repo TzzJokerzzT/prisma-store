@@ -7,18 +7,47 @@ export const useFetchData = () => {
   const [category, setCategory] = useState<string[]>([]);
   const [company, setCompany] = useState<string[]>([]);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedCompany, setSelectedCompany] = useState<string>("");
+
+  console.log(selectedCategory, selectedCompany);
+
+  const handleCategory = (items: string) => {
+    items !== selectedCategory
+      ? setSelectedCategory(items)
+      : setSelectedCategory("");
+  };
+
+  const handleCompany = (items: string) => {
+    items !== selectedCompany
+      ? setSelectedCompany(items)
+      : setSelectedCompany("");
+  };
+
+  const handleReset = () => {
+    setSelectedCategory("");
+    setSelectedCompany("");
+  };
 
   useEffect(() => {
-    storeFetch().then((data: Products[]) => {
+    storeFetch(selectedCategory, selectedCompany).then((data: Products[]) => {
       setProducts(data);
       const categories = [...new Set(data.map((product) => product.category))];
       setCategory(categories);
-      const companies = [
-        ...new Set(data.map((product) => product.about.company)),
-      ];
+      const companies = [...new Set(data.map((product) => product.company))];
       setCompany(companies);
     });
     setIsActive(true);
-  }, []);
-  return { products, category, company, isActive };
+  }, [selectedCategory, selectedCompany]);
+  return {
+    products,
+    category,
+    company,
+    isActive,
+    selectedCategory,
+    selectedCompany,
+    onCategory: handleCategory,
+    onCompany: handleCompany,
+    onReset: handleReset,
+  };
 };
