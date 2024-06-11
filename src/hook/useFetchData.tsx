@@ -1,53 +1,52 @@
-import { storeFetch } from "@/services/storeFetch";
 import { Products } from "@/types/provider.interface";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "@/services/data";
+
+export type ErrorProps = {
+  status: string;
+  show: boolean;
+};
 
 export const useFetchData = () => {
+  ///States
   const [products, setProducts] = useState<Products[]>([]);
-  const [category, setCategory] = useState<string[]>([]);
-  const [company, setCompany] = useState<string[]>([]);
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedCompany, setSelectedCompany] = useState<string>("");
-
-  console.log(selectedCategory, selectedCompany);
-
-  const handleCategory = (items: string) => {
-    items !== selectedCategory
-      ? setSelectedCategory(items)
-      : setSelectedCategory("");
-  };
-
-  const handleCompany = (items: string) => {
-    items !== selectedCompany
-      ? setSelectedCompany(items)
-      : setSelectedCompany("");
-  };
-
-  const handleReset = () => {
-    setSelectedCategory("");
-    setSelectedCompany("");
-  };
+  const [category, setCategory] = useState<string>("");
+  const [company, setCompany] = useState<string>("");
+  const [error, setError] = useState<ErrorProps>({
+    status: "",
+    show: false,
+  });
 
   useEffect(() => {
-    storeFetch(selectedCategory, selectedCompany).then((data: Products[]) => {
-      setProducts(data);
-      const categories = [...new Set(data.map((product) => product.category))];
-      setCategory(categories);
-      const companies = [...new Set(data.map((product) => product.company))];
-      setCompany(companies);
-    });
-    setIsActive(true);
-  }, [selectedCategory, selectedCompany]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/?category=${category}&company=${company}`
+        );
+        const data = await response.json();
+        if (response.status !== 200)
+          throw new Error(`Something were wrong Error: ${response.status}`);
+
+        setProducts(data);
+        setIsActive(true);
+      } catch (error) {
+        const errorMsg =
+          error instanceof Error ? error.message : "Unknow Error";
+        setError({ status: errorMsg, show: true });
+      }
+    };
+    fetchData();
+  }, [category, company]);
   return {
     products,
-    category,
-    company,
     isActive,
-    selectedCategory,
-    selectedCompany,
-    onCategory: handleCategory,
-    onCompany: handleCompany,
-    onReset: handleReset,
+    category,
+    setCategory,
+    company,
+    setCompany,
+    statusError: error.status,
+    showError: error.show,
+    setError,
   };
 };
