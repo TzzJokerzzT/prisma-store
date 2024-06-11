@@ -2,8 +2,9 @@ import { useCallback, useState } from "react";
 import { Products } from "@/types/provider.interface";
 
 const useFavorite = () => {
+  ///States
   const [favorite, setFavorite] = useState<Products[]>([]);
-  
+  ///Handler Function
   const handleFavorite = useCallback((item: Products) => {
     setFavorite((prev) => {
       const itemsExist = prev.find((items) => items.id === item.id);
