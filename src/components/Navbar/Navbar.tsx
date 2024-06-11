@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { categoryData, companyData } from "@/utils/FilterData";
 import {
   Badge,
   Checkbox,
@@ -16,9 +17,46 @@ import { StoreContextProps } from "@/types/provider.interface";
 import AccordionComponent from "@/components/Accordion/Accordion";
 import ButtonComponent from "../Button/Button";
 const NavbarComponent = () => {
-  const { favorite, toggle, onCategory, onCompany, onReset } = useContext(
-    StoreContext
-  ) as StoreContextProps;
+  ///Context
+  const {
+    favorite,
+    toggle,
+    category,
+    setCategory,
+    company,
+    setCompany,
+    isSelectedCategory,
+    setIsSelectedCategory,
+    isSelectedCompany,
+    setIsSelectedCompany,
+  } = useContext(StoreContext) as StoreContextProps;
+  ///Handler Function
+  const handleCategorySelected = (index: number) => {
+    isSelectedCategory === index
+      ? setIsSelectedCategory(null)
+      : setIsSelectedCategory(index);
+  };
+
+  const handleCompanySelected = (index: number) => {
+    isSelectedCompany === index
+      ? setIsSelectedCompany(null)
+      : setIsSelectedCompany(index);
+  };
+
+  const handleCategory = (items: string) => {
+    items !== category ? setCategory(items) : setCategory("");
+  };
+
+  const handleCompany = (items: string) => {
+    items !== company ? setCompany(items) : setCompany("");
+  };
+
+  const handleReset = () => {
+    setCategory("");
+    setCompany("");
+    setIsSelectedCategory(null);
+    setIsSelectedCompany(null);
+  };
 
   return (
     <Navbar isBordered isBlurred>
@@ -49,58 +87,44 @@ const NavbarComponent = () => {
       </NavbarContent>
       <NavbarMenu className="w-[20rem]">
         <AccordionComponent title="Category">
-          <Checkbox
-            onClick={() => onCategory("Classic Console")}
-            className="flex flex-wrap w-[11rem]"
-          >
-            Classic Console
-          </Checkbox>
-          <Checkbox
-            onClick={() => onCategory("Console")}
-            className="flex flex-wrap w-[7rem]"
-          >
-            Console
-          </Checkbox>
-          <Checkbox
-            onClick={() => onCategory("Classic Portable Console")}
-            className="flex flex-wrap w-[15rem]"
-          >
-            Classic Portable Console
-          </Checkbox>
-          <Checkbox
-            onClick={() => onCategory("Portable Console")}
-            className="flex flex-wrap w-[11rem]"
-          >
-            Portable Console
-          </Checkbox>
+          {categoryData.map((items, index) => (
+            <Checkbox
+              key={index}
+              className="flex flex-wrap w-[15rem]"
+              onClick={() => handleCategory(items)}
+              onValueChange={() => handleCategorySelected(index)}
+              isSelected={isSelectedCategory === index}
+              isDisabled={
+                isSelectedCategory !== null && isSelectedCategory !== index
+              }
+            >
+              {items}
+            </Checkbox>
+          ))}
         </AccordionComponent>
         <Divider />
         <AccordionComponent key="2" title="Company">
-          <Checkbox
-            onClick={() => onCompany("Sony")}
-            className="flex flex-wrap w-[10rem]"
-          >
-            Sony
-          </Checkbox>
-          <Checkbox
-            onClick={() => onCompany("Microsoft")}
-            className="flex flex-wrap w-[10rem]"
-          >
-            Microsoft
-          </Checkbox>
-          <Checkbox
-            onClick={() => onCompany("Nintendo")}
-            className="flex flex-wrap w-[10rem]"
-          >
-            Nintendo
-          </Checkbox>
+          {companyData.map((items, index) => (
+            <Checkbox
+              key={index}
+              className="flex flex-wrap w-[10rem]"
+              onClick={() => handleCompany(items)}
+              onValueChange={() => handleCompanySelected(index)}
+              isSelected={isSelectedCompany === index}
+              isDisabled={
+                isSelectedCompany !== null && isSelectedCompany !== index
+              }
+            >
+              {items}
+            </Checkbox>
+          ))}
         </AccordionComponent>
         <Divider />
         <ButtonComponent
           className="border-bluePrimary text-bluePrimary p-1 ml-2 w-[5rem]"
           radius="sm"
           variant="bordered"
-          onPress={onReset}
+          onPress={handleReset}
         >
           Reset
         </ButtonComponent>
